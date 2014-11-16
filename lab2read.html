@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<?php  
+		$json = get_data("http://localhost:8080/SD2/webresources/movies");
+		$datos = json_decode($json);
+	?>
+	<form method="POST">
+		<label>Seleccione una película de la lista:</label><br>		
+		<select name="option" style="width:150px;">
+			<?php  
+				for ($i=0; $i < count($datos); $i++) { 
+					# code...
+					echo '<option value="';
+					echo $i;
+					echo '">';
+					echo $datos[$i]->{'nameMovie'};
+					echo '</option>';
+				}
+			?>
+		</select>
+		<input type="submit" value="ver">
+	</form>
+	
+	<form>
+		<?php
+			echo '<label>Id:<br></label>';
+			echo '<input type="text" value="';
+			echo $datos[$_POST['option']]->{'idMovie'};
+			echo '"><br>';
+			echo '<label>Título:<br></label>';
+			echo '<input type="text" value="';
+			echo $datos[$_POST['option']]->{'nameMovie'};
+			echo '"><br>';
+			echo '<label>Año:<br></label>';
+			echo '<input type="text" value="';
+			echo $datos[$_POST['option']]->{'yearMovie'};
+			echo '"><br>';
+			echo '<label>Descripción:<br></label>';
+			echo '<textarea style="width: 228px;">';
+			echo $datos[$_POST['option']]->{'descriptionMovie'};
+			echo '</textarea>';
+		?>
+	</form>
+	<a href="index.php"><button>volver</button></a>
+</body>
+</html>

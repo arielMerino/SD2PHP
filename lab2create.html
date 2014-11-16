@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Create</title>
+</head>
+<body>
+	<form method="POST">
+		<h2>Agregar Película</h2>
+		<label>Título:<br></label>
+		<input type="text" name="titulo" value=""><br>
+		<label>Año:<br></label>
+		<input type="number" name="year" value="2014" style="width:228px"><br>
+		<label>Descripcion:<br></label>
+		<textarea name="descripcion" style="width:228px"></textarea><br>
+		<input type="submit" name="enviar" value="Crear">
+		<?php  
+			if(isset($_POST['titulo'])){
+				if ($_POST['titulo']!="" && $_POST['year']>=1895 && $_POST['descripcion']!="") {
+					$arr = array('idMovie'=> 0, 'nameMovie' => $_POST['titulo'], 'yearMovie' => $_POST['year'], 'descriptionMovie' => $_POST['descripcion']);
+					//echo json_encode($arr);
+
+					$data = json_encode($arr);
+
+					echo $data;
+					//$request = new HttpRequest('http://localhost:8080/Servidor/webresources/movies',HttpRquest::METH_POST);
+					//$request->addPostFields($arr);
+					//echo $request->send();
+
+					//$request2 = new http_request(HTTP_METH_POST, 'http://localhost:8080/Servidor/webresources/movies');
+
+					$curl = curl_init('http://localhost:8080/SD2/webresources/movies');
+
+					curl_setopt($curl, CURLOPT_HEADER, false);
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+					curl_setopt($curl, CURLOPT_POST, true);
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+					$json_response = curl_exec($curl);
+					$status = curl_getinfo($url, CURLINFO_HTTP_CODE);
+					echo $status;
+
+					alert("se ha enviado la petición");
+
+					//header('Location: index.php');
+				}
+			}
+		?>
+	</form>
+	<br><a href="index.php"><button>volver</button></a>
+	
+</body>
+</html>

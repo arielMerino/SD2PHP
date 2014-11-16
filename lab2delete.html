@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<?php  
+		$json = get_data("http://localhost:8080/SD2/webresources/movies");
+		$datos = json_decode($json);
+	?>
+	<form method="POST">
+		<label>Seleccione una película de la lista:</label><br>		
+		<select name="option" style="width:150px;">
+			<?php  
+				for ($i=0; $i < count($datos); $i++) { 
+					# code...
+					echo '<option value="';
+					echo $i;
+					echo '">';
+					echo $datos[$i]->{'nameMovie'};
+					echo '</option>';
+				}
+			?>
+		</select>
+		<input type="submit" value="ver">
+	</form>
+		
+	<form method="POST">
+		<label>Título:<br></label>
+		<input type="text" name="nombre" <?php echo 'value="'.$datos[$_POST['option']]->{'nameMovie'}.'"'; ?>><br>
+		<label>Año:<br></label>
+		<input type="text" name="year" <?php echo 'value="'.$datos[$_POST['option']]->{'yearMovie'}.'"'; ?>><br>
+		<label>Descripción:<br></label>
+		<textarea name="descripcion" style="width:228px"><?php echo $datos[$_POST['option']]->{'descriptionMovie'}; ?></textarea><br>
+		<input type="number" <?php echo 'value="'.$datos[$_POST['option']]->{'idMovie'}.'"'; ?> name = "id" style="display:none;">
+		<input type="submit" value ="eliminar">
+		<?php
+			if(isset($_POST['id']))
+			{
+				if($_POST['id']!="")
+				{
+					$url = 'http://localhost:8080/SD2/webresources/movies/';
+					$ch = curl_init();
+					curl_setopt($ch, CURLOPT_URL, $url.$_POST['id']);
+					curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',));
+					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+					$response = curl_exec($ch);
+					curl_close($ch);
+
+					alert($_POST['nombre']);
+				}
+
+
+			}
+		?>
+	</form>
+		
+	<a href="index.php"><button>volver</button></a>
+</body>
+</html>

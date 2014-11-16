@@ -1,0 +1,12 @@
+<?php
+	include("index.html");
+	$url = "http://localhost:8080/webservice/movies";
+	$url_content = '';
+	$file = @fopen($url,'r');
+	if($file){
+		while(!feof($file)){
+			$url_content .= @fgets($file, 10000);
+		}
+		fclose($file);
+	}
+?>
