@@ -21,8 +21,6 @@
 					//echo json_encode($arr);
 
 					$data = json_encode($arr);
-
-					echo $data;
 					//$request = new HttpRequest('http://localhost:8080/Servidor/webresources/movies',HttpRquest::METH_POST);
 					//$request->addPostFields($arr);
 					//echo $request->send();
@@ -38,9 +36,8 @@
 					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 					$json_response = curl_exec($curl);
 					$status = curl_getinfo($url, CURLINFO_HTTP_CODE);
-					echo $status;
 
-					alert("se ha enviado la petición");
+					alert("se ha creado la entrada: ".$_POST['titulo']);
 
 					//header('Location: index.php');
 				}

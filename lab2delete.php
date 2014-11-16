@@ -25,6 +25,7 @@
 		echo $msg;
 		echo '")';
 		echo '</script>' ;
+		return true;
 	}
 
 	include ("lab2delete.html");

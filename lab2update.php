@@ -21,7 +21,7 @@
 	function alert($msg)
 	{
 		echo '<script type="text/javascript">';
-		echo 'alert ("Se ha actualizado: ';
+		echo 'alert ("Se ha modificado la entrada: ';
 		echo $msg;
 		echo '")';
 		echo '</script>' ;
